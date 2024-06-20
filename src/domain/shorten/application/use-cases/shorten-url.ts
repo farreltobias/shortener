@@ -2,7 +2,7 @@ import { Either, right } from '@/core/either'
 import { NanoID } from '@/core/entities/nano-id'
 
 import { Url } from '../../enterprise/entities/url'
-import { UrlsRepository } from '../repositories/url-repository'
+import { UrlsRepository } from '../repositories/urls-repository'
 
 interface ShortenUrlRequestUseCase {
   url: string
