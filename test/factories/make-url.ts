@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
 
-import { NanoID } from '@/core/entities/nano-id'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Url, UrlProps } from '@/domain/shorten/enterprise/entities/url'
+import { NanoID } from '@/domain/shorten/enterprise/entities/value-objects/nano-id'
 import { PrismaUrlMapper } from '@/infra/database/prisma/mappers/prisma-url-mapper'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 

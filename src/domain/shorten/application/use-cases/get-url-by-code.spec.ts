@@ -1,9 +1,9 @@
 import { makeUrl } from 'test/factories/make-url'
 import { InMemoryUrlsRepository } from 'test/repositories/in-memory-urls-repository'
 
-import { NanoID } from '@/core/entities/nano-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
+import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
 import { GetUrlByCodeUseCase } from './get-url-by-code'
 
 let inMemoryUrlsRepository: InMemoryUrlsRepository

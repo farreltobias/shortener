@@ -1,6 +1,6 @@
-import { NanoID } from '@/core/entities/nano-id'
 import { UrlsRepository } from '@/domain/shorten/application/repositories/urls-repository'
 import { Url } from '@/domain/shorten/enterprise/entities/url'
+import { NanoID } from '@/domain/shorten/enterprise/entities/value-objects/nano-id'
 
 export class InMemoryUrlsRepository implements UrlsRepository {
   public items: Url[] = []

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common'
 
 import { Either, left, right } from '@/core/either'
-import { NanoID } from '@/core/entities/nano-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 import { Url } from '../../enterprise/entities/url'
+import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
 import { UrlsRepository } from '../repositories/urls-repository'
 
 interface GetUrlByCodeRequestUseCase {

@@ -1,9 +1,9 @@
 import { Entity } from '@/core/entities/entity'
-import { NanoID } from '@/core/entities/nano-id'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 import { UrlOwner } from './url-owner'
+import { NanoID } from './value-objects/nano-id'
 
 export interface UrlProps {
   baseUrl: string
