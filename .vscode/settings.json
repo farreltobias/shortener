@@ -1,6 +1,12 @@
 {
   "conventionalCommits.scopes": [
     "core",
-    "lint"
+    "lint",
+    "infra",
+    "domain"
+  ],
+  "cSpell.words": [
+    "encrypter",
+    "hasher"
   ]
 }
