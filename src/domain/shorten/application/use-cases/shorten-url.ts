@@ -29,7 +29,7 @@ export class ShortenUrlUseCase {
       code,
     })
 
-    this.urlRepository.create(url)
+    await this.urlRepository.create(url)
 
     return right({ url })
   }
