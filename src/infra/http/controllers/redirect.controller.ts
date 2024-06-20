@@ -8,12 +8,14 @@ import {
 import type { Response } from 'express'
 
 import { GetUrlByCodeUseCase } from '@/domain/shorten/application/use-cases/get-url-by-code'
+import { Public } from '@/infra/auth/public'
 
 @Controller('/:code')
 export class RedirectController {
   constructor(private getUrlByCode: GetUrlByCodeUseCase) {}
 
   @Get()
+  @Public()
   async handle(@Param('code') code: string, @Res() res: Response) {
     const result = await this.getUrlByCode.execute({ code })
 

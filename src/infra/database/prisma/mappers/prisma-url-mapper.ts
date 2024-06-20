@@ -23,6 +23,7 @@ export class PrismaUrlMapper {
     return {
       id: url.id.toString(),
       code: url.code.toString(),
+      ownerId: url.owner?.id.toString(),
       baseUrl: url.baseUrl,
       usedCount: url.usedCount,
       createdAt: url.createdAt,

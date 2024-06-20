@@ -13,6 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  password String
+
+  urls Url[]
+
+  @@map("users")
+}
+
 model Url {
   id        String @id @default(uuid())
   baseUrl   String @map("base_url")
@@ -22,6 +33,9 @@ model Url {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
+
+  ownerId String? @map("owner_id")
+  owner   User?   @relation(fields: [ownerId], references: [id])
 
   @@map("urls")
 }

@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 import { ShortenUrlUseCase } from '@/domain/shorten/application/use-cases/shorten-url'
+import { Public } from '@/infra/auth/public'
 import { EnvService } from '@/infra/env/env.service'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
@@ -22,6 +23,7 @@ export class ShortenUrlController {
   ) {}
 
   @Post()
+  @Public()
   async handle(@Body(bodyValidationPipe) body: ShortenUrlBody) {
     const { url } = ShortenUrlBodySchema.parse(body)
 
