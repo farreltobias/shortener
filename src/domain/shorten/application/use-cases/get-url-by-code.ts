@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, left, right } from '@/core/either'
 import { NanoID } from '@/core/entities/nano-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
@@ -11,6 +13,7 @@ interface GetUrlByCodeRequestUseCase {
 
 type GetUrlByCodeResponseUseCase = Either<ResourceNotFoundError, { url: Url }>
 
+@Injectable()
 export class GetUrlByCodeUseCase {
   constructor(private urlRepository: UrlsRepository) {}
 
