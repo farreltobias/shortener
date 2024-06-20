@@ -13,10 +13,7 @@ describe('Shorten Url', () => {
   beforeEach(() => {
     inMemoryUrlsRepository = new InMemoryUrlsRepository()
     inMemoryOwnersRepository = new InMemoryOwnersRepository()
-    sut = new ShortenUrlUseCase(
-      inMemoryUrlsRepository,
-      inMemoryOwnersRepository,
-    )
+    sut = new ShortenUrlUseCase(inMemoryUrlsRepository)
   })
 
   it('should be able to create a short url', async () => {
@@ -39,7 +36,7 @@ describe('Shorten Url', () => {
     const result = await sut.execute({
       baseUrl:
         'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
-      ownerEmail: owner.email,
+      ownerId: owner.id.toString(),
     })
 
     const url = inMemoryUrlsRepository.items[0]
@@ -64,7 +61,7 @@ describe('Shorten Url', () => {
     const result = await sut.execute({
       baseUrl:
         'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
-      ownerEmail: owner.email,
+      ownerId: owner.id.toString(),
       customCode,
     })
 
