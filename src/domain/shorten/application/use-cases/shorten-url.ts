@@ -1,3 +1,5 @@
+import { Injectable } from '@nestjs/common'
+
 import { Either, right } from '@/core/either'
 import { NanoID } from '@/core/entities/nano-id'
 
@@ -5,7 +7,7 @@ import { Url } from '../../enterprise/entities/url'
 import { UrlsRepository } from '../repositories/urls-repository'
 
 interface ShortenUrlRequestUseCase {
-  url: string
+  baseUrl: string
   // TODO: Add custom code for authenticated users
   // ownerId?: string
   // code?: string
@@ -13,11 +15,12 @@ interface ShortenUrlRequestUseCase {
 
 type ShortenUrlResponseUseCase = Either<null, { url: Url }>
 
-export class ShortenUrl {
+@Injectable()
+export class ShortenUrlUseCase {
   constructor(private urlRepository: UrlsRepository) {}
 
   async execute({
-    url: baseUrl,
+    baseUrl,
   }: ShortenUrlRequestUseCase): Promise<ShortenUrlResponseUseCase> {
     const code = new NanoID()
 

@@ -30,8 +30,8 @@ importers:
         specifier: ^2.4.3
         version: 2.4.3
       nanoid:
-        specifier: ^5.0.7
-        version: 5.0.7
+        specifier: 3.3.4
+        version: 3.3.4
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
@@ -2357,14 +2357,14 @@ packages:
     resolution: {integrity: sha512-avsJQhyd+680gKXyG/sQc0nXaC6rBkPOfyHYcFb9+hdkqQkR9bdnkJ0AMZhke0oesPqIO+mFFJ+IdBc7mst4IA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  nanoid@3.3.7:
-    resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
+  nanoid@3.3.4:
+    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@5.0.7:
-    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
-    engines: {node: ^18 || >=20}
+  nanoid@3.3.7:
+    resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
   natural-compare@1.4.0:
@@ -5781,9 +5781,9 @@ snapshots:
 
   mute-stream@1.0.0: {}
 
-  nanoid@3.3.7: {}
+  nanoid@3.3.4: {}
 
-  nanoid@5.0.7: {}
+  nanoid@3.3.7: {}
 
   natural-compare@1.4.0: {}
 

@@ -18,11 +18,11 @@ export interface UrlProps {
 }
 
 export class Url extends Entity<UrlProps> {
-  get longUrl(): string {
+  get baseUrl(): string {
     return this.props.baseUrl
   }
 
-  set longUrl(value: string) {
+  set baseUrl(value: string) {
     this.props.baseUrl = value
     this.touch()
   }

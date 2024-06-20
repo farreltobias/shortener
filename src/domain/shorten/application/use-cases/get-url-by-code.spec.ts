@@ -4,15 +4,15 @@ import { InMemoryUrlsRepository } from 'test/repositories/in-memory-urls-reposit
 import { NanoID } from '@/core/entities/nano-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
-import { GetUrlByCode } from './get-url-by-code'
+import { GetUrlByCodeUseCase } from './get-url-by-code'
 
 let inMemoryUrlsRepository: InMemoryUrlsRepository
-let sut: GetUrlByCode
+let sut: GetUrlByCodeUseCase
 
 describe('Get Url by code', () => {
   beforeEach(() => {
     inMemoryUrlsRepository = new InMemoryUrlsRepository()
-    sut = new GetUrlByCode(inMemoryUrlsRepository)
+    sut = new GetUrlByCodeUseCase(inMemoryUrlsRepository)
   })
 
   it('should be able to get url by code', async () => {

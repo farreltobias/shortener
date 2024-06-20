@@ -11,7 +11,7 @@ interface GetUrlByCodeRequestUseCase {
 
 type GetUrlByCodeResponseUseCase = Either<ResourceNotFoundError, { url: Url }>
 
-export class GetUrlByCode {
+export class GetUrlByCodeUseCase {
   constructor(private urlRepository: UrlsRepository) {}
 
   async execute({
