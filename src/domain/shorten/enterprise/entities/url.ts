@@ -1,13 +1,13 @@
 import { Entity } from '@/core/entities/entity'
+import { NanoID } from '@/core/entities/nano-id'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
 import { UrlOwner } from './url-owner'
 
 export interface UrlProps {
-  longUrl: string
-  shortUrl: string
-  code: string
+  baseUrl: string
+  code: NanoID
   usedCount: number
 
   createdAt: Date
@@ -19,28 +19,19 @@ export interface UrlProps {
 
 export class Url extends Entity<UrlProps> {
   get longUrl(): string {
-    return this.props.longUrl
+    return this.props.baseUrl
   }
 
   set longUrl(value: string) {
-    this.props.longUrl = value
+    this.props.baseUrl = value
     this.touch()
   }
 
-  get shortUrl(): string {
-    return this.props.shortUrl
-  }
-
-  set shortUrl(value: string) {
-    this.props.shortUrl = value
-    this.touch()
-  }
-
-  get code(): string {
+  get code(): NanoID {
     return this.props.code
   }
 
-  set code(value: string) {
+  set code(value: NanoID) {
     this.props.code = value
     this.touch()
   }
