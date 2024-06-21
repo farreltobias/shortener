@@ -23,4 +23,10 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
     this.items[index] = url
   }
+
+  async delete(url: Url): Promise<void> {
+    const itemIndex = this.items.findIndex((item) => item.id.equals(url.id))
+
+    this.items.splice(itemIndex, 1)
+  }
 }

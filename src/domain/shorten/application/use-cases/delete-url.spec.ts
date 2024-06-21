@@ -5,18 +5,18 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
 import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
-import { EditUrlUseCase } from './edit-url'
+import { DeleteUrlUseCase } from './delete-url'
 
 let inMemoryUrlsRepository: InMemoryUrlsRepository
-let sut: EditUrlUseCase
+let sut: DeleteUrlUseCase
 
-describe('Edit Url', () => {
+describe('Delete Url', () => {
   beforeEach(() => {
     inMemoryUrlsRepository = new InMemoryUrlsRepository()
-    sut = new EditUrlUseCase(inMemoryUrlsRepository)
+    sut = new DeleteUrlUseCase(inMemoryUrlsRepository)
   })
 
-  it('should be able to edit a url', async () => {
+  it('should be able to delete a url', async () => {
     const newUrl = makeUrl({
       ownerId: new UniqueEntityID('owner-1'),
       code: new NanoID('123abc'),
@@ -25,19 +25,14 @@ describe('Edit Url', () => {
     await inMemoryUrlsRepository.create(newUrl)
 
     await sut.execute({
-      urlCode: newUrl.code.toValue(),
+      urlCode: '123abc',
       ownerId: 'owner-1',
-      baseUrl: 'https://farrel.tech/',
-      newCode: '456def',
     })
 
-    expect(inMemoryUrlsRepository.items[0]).toMatchObject({
-      baseUrl: 'https://farrel.tech/',
-      code: new NanoID('456def'),
-    })
+    expect(inMemoryUrlsRepository.items).toHaveLength(0)
   })
 
-  it('should not be able to edit a url from another owner', async () => {
+  it('should not be able to delete a url from another owner', async () => {
     const newUrl = makeUrl({
       ownerId: new UniqueEntityID('owner-1'),
       code: new NanoID('123abc'),
@@ -46,17 +41,15 @@ describe('Edit Url', () => {
     await inMemoryUrlsRepository.create(newUrl)
 
     const result = await sut.execute({
-      urlCode: newUrl.code.toValue(),
+      urlCode: '123abc',
       ownerId: 'owner-2',
-      baseUrl: 'https://farrel.tech/',
-      newCode: '456def',
     })
 
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 
-  it('should not be able to edit a url without a owner', async () => {
+  it('should not be able to delete a url without owner', async () => {
     const newUrl = makeUrl({
       code: new NanoID('123abc'),
     })
@@ -64,10 +57,8 @@ describe('Edit Url', () => {
     await inMemoryUrlsRepository.create(newUrl)
 
     const result = await sut.execute({
-      urlCode: newUrl.code.toValue(),
+      urlCode: '123abc',
       ownerId: 'owner-1',
-      baseUrl: 'https://farrel.tech/',
-      newCode: '456def',
     })
 
     expect(result.isLeft()).toBe(true)

@@ -34,7 +34,7 @@ export class EditUrlUseCase {
       return left(new ResourceNotFoundError())
     }
 
-    if (url.ownerId?.toString() !== ownerId) {
+    if (!url.ownerId || url.ownerId.toString() !== ownerId) {
       return left(new NotAllowedError())
     }
 
