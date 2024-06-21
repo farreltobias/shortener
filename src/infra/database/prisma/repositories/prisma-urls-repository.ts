@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { UrlsRepository } from '@/domain/shorten/application/repositories/urls-repository'
 import { Url } from '@/domain/shorten/enterprise/entities/url'
 
@@ -45,5 +46,15 @@ export class PrismaUrlsRepository implements UrlsRepository {
     await this.prisma.url.delete({
       where: { id: url.id.toString() },
     })
+  }
+
+  async findManyRecent({ page }: PaginationParams): Promise<Url[]> {
+    const urls = await this.prisma.url.findMany({
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * 20,
+      take: 20,
+    })
+
+    return urls.map(PrismaUrlMapper.toDomain)
   }
 }

@@ -42,3 +42,32 @@ Authorization: Bearer {{authToken}}
 GET {{baseURL}}/{{code}}
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# Preferealbe to test in browser
+# @name edit_url
+PUT {{baseURL}}/{{code}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "url": "https://farrel.tech",
+  "code": "456def"
+}
+
+###
+
+# Preferealbe to test in browser
+# @name delete_url
+DELETE {{baseURL}}/{{code}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# Preferealbe to test in browser
+# @name list_urls
+GET {{baseURL}}/urls/list
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

@@ -66,7 +66,7 @@ URL
 - ⁠code (authenticated)
 /:code
 
-/owners (register)
+/accounts (register)
 /sessions (authenticates)
 
 Authenticated
@@ -74,6 +74,7 @@ Authenticated
 - code
 - url
 /:code/delete
+/urls/list
 
 Services
 - url shorten queue (with lambda)
@@ -81,3 +82,4 @@ Services
 
 Notifications (extra)
 No auth -> link with 7 day limit
+- maybe?
