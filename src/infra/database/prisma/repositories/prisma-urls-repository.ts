@@ -40,4 +40,10 @@ export class PrismaUrlsRepository implements UrlsRepository {
       data,
     })
   }
+
+  async delete(url: Url): Promise<void> {
+    await this.prisma.url.delete({
+      where: { id: url.id.toString() },
+    })
+  }
 }

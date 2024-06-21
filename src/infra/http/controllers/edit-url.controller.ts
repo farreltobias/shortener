@@ -23,7 +23,7 @@ const bodyValidationPipe = new ZodValidationPipe(EditUrlBodySchema)
 
 type EditUrlBody = z.infer<typeof EditUrlBodySchema>
 
-@Controller('/:code/edit')
+@Controller('/:code')
 export class EditUrlController {
   constructor(private editUrl: EditUrlUseCase) {}
 

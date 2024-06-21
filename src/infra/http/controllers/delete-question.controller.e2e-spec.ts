@@ -9,7 +9,7 @@ import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 
-describe('Edit Url (E2E)', () => {
+describe('Delete Url (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let ownerFactory: OwnerFactory
@@ -32,7 +32,7 @@ describe('Edit Url (E2E)', () => {
     await app.init()
   })
 
-  test('[PUT] /:code', async () => {
+  test('[DELETE] /:code', async () => {
     const user = await ownerFactory.makePrismaOwner()
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
@@ -40,25 +40,19 @@ describe('Edit Url (E2E)', () => {
       ownerId: user.id,
     })
 
-    const urlCode = url.code.toString()
-
     const response = await request(app.getHttpServer())
-      .put(`/${urlCode}`)
+      .delete(`/${url.code.toString()}`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        url: 'https://farrel.tech/',
-        code: '456def',
-      })
+      .send()
 
     expect(response.statusCode).toBe(204)
 
-    const urlOnDatabase = await prisma.url.findFirst({
+    const urlOnDatabase = await prisma.url.findUnique({
       where: {
-        baseUrl: 'https://farrel.tech/',
-        code: '456def',
+        id: url.id.toString(),
       },
     })
 
-    expect(urlOnDatabase).toBeTruthy()
+    expect(urlOnDatabase).toBeNull()
   })
 })
