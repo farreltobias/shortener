@@ -53,6 +53,6 @@ describe('Delete Url (E2E)', () => {
       },
     })
 
-    expect(urlOnDatabase).toBeNull()
+    expect(urlOnDatabase?.deletedAt).toEqual(expect.any(Date))
   })
 })

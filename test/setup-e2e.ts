@@ -14,11 +14,7 @@ config({ path: '.env.test', override: true })
 const env = envSchema.parse(process.env)
 
 const prisma = new PrismaClient()
-const redis = new Redis({
-  host: env.REDIS_HOST,
-  port: env.REDIS_PORT,
-  db: env.REDIS_DB,
-})
+const redis = new Redis(env.REDIS_URL)
 
 function generateUniqueDatabaseURL(schemaId: string) {
   if (!env.DATABASE_URL) {
