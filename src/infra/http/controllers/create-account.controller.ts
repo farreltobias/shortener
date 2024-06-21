@@ -6,6 +6,7 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common'
+import { ApiBody, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { OwnerAlreadyExistsError } from '@/domain/shorten/application/use-cases/errors/owner-already-exists-error'
@@ -27,6 +28,21 @@ export class CreateAccountController {
   constructor(private registerOwner: RegisterOwnerUseCase) {}
 
   @Post()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        email: { type: 'string', format: 'email' },
+        password: { type: 'string' },
+      },
+      required: ['name', 'email', 'password'],
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The account was successfully created',
+  })
   @UsePipes(new ZodValidationPipe(CreateAccountBodySchema))
   async handle(@Body() body: CreateAccountBody) {
     const { name, email, password } = body

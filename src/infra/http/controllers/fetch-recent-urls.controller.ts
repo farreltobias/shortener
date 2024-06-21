@@ -1,4 +1,5 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common'
+import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { FetchRecentUrlsUseCase } from '@/domain/shorten/application/use-cases/fetch-recent-urls'
@@ -26,6 +27,47 @@ export class FetchRecentUrlsController {
   ) {}
 
   @Get()
+  @ApiBearerAuth()
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    schema: {
+      type: 'string',
+      default: '1',
+      minimum: 1,
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The list of recent URLs',
+    schema: {
+      type: 'object',
+      properties: {
+        urls: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              baseUrl: {
+                type: 'string',
+                format: 'url',
+                example: 'https://example.com',
+              },
+              shortUrl: {
+                type: 'string',
+                format: 'url',
+                example: 'https://short.farrel.tech/abc123',
+              },
+              usedCount: {
+                type: 'number',
+                example: 0,
+              },
+            },
+          },
+        },
+      },
+    },
+  })
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamsSchema,
   ) {

@@ -5,6 +5,7 @@ import {
   Controller,
   Post,
 } from '@nestjs/common'
+import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { CodeAlreadyExistsError } from '@/domain/shorten/application/use-cases/errors/code-already-exists-error'
@@ -35,6 +36,31 @@ export class ShortenUrlController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', format: 'url', example: 'https://example.com' },
+        code: { type: 'string', minLength: 3, maxLength: 10 },
+      },
+      required: ['url'],
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'The shortened URL was successfully created',
+    schema: {
+      type: 'object',
+      properties: {
+        url: {
+          type: 'string',
+          format: 'url',
+          example: 'https://short.farrel.tech/abc123',
+        },
+      },
+    },
+  })
   async handle(
     @Body(bodyValidationPipe) body: ShortenUrlBody,
     @CurrentUser() user: UserPayload,

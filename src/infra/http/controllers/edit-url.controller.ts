@@ -6,6 +6,7 @@ import {
   Param,
   Put,
 } from '@nestjs/common'
+import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { EditUrlUseCase } from '@/domain/shorten/application/use-cases/edit-url'
@@ -28,6 +29,21 @@ export class EditUrlController {
   constructor(private editUrl: EditUrlUseCase) {}
 
   @Put()
+  @ApiBearerAuth()
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        url: { type: 'string', format: 'url' },
+        code: { type: 'string', minLength: 3, maxLength: 10 },
+      },
+      required: ['url', 'code'],
+    },
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'The URL was successfully edited',
+  })
   @HttpCode(204)
   async handle(
     @Body(bodyValidationPipe) body: EditUrlBody,
