@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 
 import { UrlsRepository } from '@/domain/shorten/application/repositories/urls-repository'
 import { Url } from '@/domain/shorten/enterprise/entities/url'
-import { NanoID } from '@/domain/shorten/enterprise/entities/value-objects/nano-id'
 
 import { PrismaUrlMapper } from '../mappers/prisma-url-mapper'
 import { PrismaService } from '../prisma.service'
@@ -19,10 +18,10 @@ export class PrismaUrlsRepository implements UrlsRepository {
     })
   }
 
-  async findByCode(code: NanoID): Promise<Url | null> {
+  async findByCode(code: string): Promise<Url | null> {
     const url = await this.prisma.url.findUnique({
       where: {
-        code: code.toString(),
+        code,
       },
     })
 
@@ -31,5 +30,14 @@ export class PrismaUrlsRepository implements UrlsRepository {
     }
 
     return PrismaUrlMapper.toDomain(url)
+  }
+
+  async save(url: Url): Promise<void> {
+    const data = PrismaUrlMapper.toPrisma(url)
+
+    await this.prisma.url.update({
+      where: { id: data.id },
+      data,
+    })
   }
 }

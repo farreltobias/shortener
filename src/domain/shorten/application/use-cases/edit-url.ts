@@ -11,9 +11,9 @@ import { CodeAlreadyExistsError } from './errors/code-already-exists-error'
 
 interface EditUrlRequestUseCase {
   ownerId: string
-  urlId: string
+  urlCode: string
   baseUrl: string
-  code: string
+  newCode: string
 }
 
 type EditUrlResponseUseCase = Either<CodeAlreadyExistsError, { url: Url }>
@@ -24,11 +24,11 @@ export class EditUrlUseCase {
 
   async execute({
     ownerId,
-    urlId,
+    urlCode,
     baseUrl,
-    code,
+    newCode,
   }: EditUrlRequestUseCase): Promise<EditUrlResponseUseCase> {
-    const url = await this.urlRepository.findById(urlId)
+    const url = await this.urlRepository.findByCode(urlCode)
 
     if (!url) {
       return left(new ResourceNotFoundError())
@@ -39,7 +39,7 @@ export class EditUrlUseCase {
     }
 
     url.baseUrl = baseUrl
-    url.code = new NanoID(code)
+    url.code = new NanoID(newCode)
 
     await this.urlRepository.save(url)
 

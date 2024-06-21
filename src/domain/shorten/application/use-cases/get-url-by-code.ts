@@ -4,7 +4,6 @@ import { Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 import { Url } from '../../enterprise/entities/url'
-import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
 import { UrlsRepository } from '../repositories/urls-repository'
 
 interface GetUrlByCodeRequestUseCase {
@@ -20,9 +19,7 @@ export class GetUrlByCodeUseCase {
   async execute({
     code,
   }: GetUrlByCodeRequestUseCase): Promise<GetUrlByCodeResponseUseCase> {
-    const nanoid = new NanoID(code)
-
-    const url = await this.urlRepository.findByCode(nanoid)
+    const url = await this.urlRepository.findByCode(code)
 
     if (!url) {
       return left(new ResourceNotFoundError())

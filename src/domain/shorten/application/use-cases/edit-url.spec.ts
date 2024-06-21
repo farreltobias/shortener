@@ -17,43 +17,39 @@ describe('Edit Url', () => {
   })
 
   it('should be able to edit a url', async () => {
-    const newUrl = makeUrl(
-      {
-        ownerId: new UniqueEntityID('owner-1'),
-      },
-      new UniqueEntityID('url-1'),
-    )
+    const newUrl = makeUrl({
+      ownerId: new UniqueEntityID('owner-1'),
+      code: new NanoID('123abc'),
+    })
 
     await inMemoryUrlsRepository.create(newUrl)
 
     await sut.execute({
-      urlId: newUrl.id.toValue(),
+      urlCode: newUrl.code.toValue(),
       ownerId: 'owner-1',
       baseUrl: 'https://farrel.tech/',
-      code: '123abc',
+      newCode: '456def',
     })
 
     expect(inMemoryUrlsRepository.items[0]).toMatchObject({
       baseUrl: 'https://farrel.tech/',
-      code: new NanoID('123abc'),
+      code: new NanoID('456def'),
     })
   })
 
   it('should not be able to edit a url from another user', async () => {
-    const newUrl = makeUrl(
-      {
-        ownerId: new UniqueEntityID('owner-1'),
-      },
-      new UniqueEntityID('url-1'),
-    )
+    const newUrl = makeUrl({
+      ownerId: new UniqueEntityID('owner-1'),
+      code: new NanoID('123abc'),
+    })
 
     await inMemoryUrlsRepository.create(newUrl)
 
     const result = await sut.execute({
-      urlId: newUrl.id.toValue(),
+      urlCode: newUrl.code.toValue(),
       ownerId: 'owner-2',
       baseUrl: 'https://farrel.tech/',
-      code: '123abc',
+      newCode: '456def',
     })
 
     expect(result.isLeft()).toBe(true)

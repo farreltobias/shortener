@@ -27,7 +27,7 @@ export class ShortenUrlUseCase {
   }: ShortenUrlRequestUseCase): Promise<ShortenUrlResponseUseCase> {
     const code = ownerId && customCode ? new NanoID(customCode) : new NanoID()
 
-    const urlExists = await this.urlRepository.findByCode(code)
+    const urlExists = await this.urlRepository.findByCode(code.toString())
 
     if (urlExists) {
       return left(new CodeAlreadyExistsError(code.toString()))
