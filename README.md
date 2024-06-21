@@ -32,7 +32,7 @@ You can access the live demo of the application [here](https://short.farrel.tech
 
 ## Installation
 
-To install the project, you need to have [Node.js v20](https://nodejs.org/) and [git](https://www.git-scm.com/) installed on your machine. You can use the following commands to install the project:
+To install the project, you need to have [Node.js v20](https://nodejs.org/), (pnpm)[https://pnpm.io/] and [git](https://www.git-scm.com/) installed on your machine. You can use the following commands to install the project:
 
 ```bash
 # Clone the repository
