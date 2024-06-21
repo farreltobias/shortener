@@ -24,8 +24,7 @@ describe('Redirect Url (E2E)', () => {
   })
 
   test('[POST] /:code', async () => {
-    const baseUrl =
-      'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/'
+    const baseUrl = 'https://farrel.tech/'
 
     const url = await urlFactory.makePrismaUrl({ baseUrl })
 

@@ -18,8 +18,7 @@ describe('Shorten Url', () => {
 
   it('should be able to create a short url', async () => {
     const result = await sut.execute({
-      baseUrl:
-        'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
+      baseUrl: 'https://farrel.tech/',
     })
 
     expect(result.isRight()).toBe(true)
@@ -34,20 +33,14 @@ describe('Shorten Url', () => {
     await inMemoryOwnersRepository.create(owner)
 
     const result = await sut.execute({
-      baseUrl:
-        'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
+      baseUrl: 'https://farrel.tech/',
       ownerId: owner.id.toString(),
     })
-
-    const url = inMemoryUrlsRepository.items[0]
 
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({
       url: expect.objectContaining({
-        owner: expect.objectContaining({
-          ownerId: owner.id,
-          urlId: url.id,
-        }),
+        ownerId: owner.id,
       }),
     })
   })
@@ -59,8 +52,7 @@ describe('Shorten Url', () => {
     const customCode = '123abc'
 
     const result = await sut.execute({
-      baseUrl:
-        'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
+      baseUrl: 'https://farrel.tech/',
       ownerId: owner.id.toString(),
       customCode,
     })
@@ -77,8 +69,7 @@ describe('Shorten Url', () => {
     const customCode = '123abc'
 
     const result = await sut.execute({
-      baseUrl:
-        'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/',
+      baseUrl: 'https://farrel.tech/',
       customCode,
     })
 

@@ -33,8 +33,7 @@ describe('Shorten Url (E2E)', () => {
     const user = await ownerFactory.makePrismaOwner()
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
-    const url =
-      'https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/'
+    const url = 'https://farrel.tech/'
 
     const response = await request(app.getHttpServer())
       .post(`/shorten`)

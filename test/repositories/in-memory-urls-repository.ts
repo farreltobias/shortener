@@ -18,4 +18,20 @@ export class InMemoryUrlsRepository implements UrlsRepository {
 
     return url
   }
+
+  async findById(id: string): Promise<Url | null> {
+    const url = this.items.find((url) => url.id.toString() === id)
+
+    if (!url) {
+      return null
+    }
+
+    return url
+  }
+
+  async save(url: Url): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.equals(url.id))
+
+    this.items[index] = url
+  }
 }
