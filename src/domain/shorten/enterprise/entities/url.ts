@@ -2,7 +2,6 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 
-import { UrlOwner } from './url-owner'
 import { NanoID } from './value-objects/nano-id'
 
 export interface UrlProps {
@@ -14,7 +13,7 @@ export interface UrlProps {
   updatedAt?: Date | null
   deletedAt?: Date | null
 
-  owner?: UrlOwner | null
+  ownerId?: UniqueEntityID | null
 }
 
 export class Url extends Entity<UrlProps> {
@@ -70,12 +69,12 @@ export class Url extends Entity<UrlProps> {
     return !!this.deletedAt
   }
 
-  get owner(): UrlOwner | undefined | null {
-    return this.props.owner
+  get ownerId(): UniqueEntityID | undefined | null {
+    return this.props.ownerId
   }
 
-  set owner(value: UrlOwner | undefined | null) {
-    this.props.owner = value
+  set ownerId(value: UniqueEntityID | undefined | null) {
+    this.props.ownerId = value
     this.touch()
   }
 

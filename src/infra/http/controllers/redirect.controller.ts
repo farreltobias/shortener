@@ -11,11 +11,11 @@ import { GetUrlByCodeUseCase } from '@/domain/shorten/application/use-cases/get-
 import { Public } from '@/infra/auth/public'
 
 @Controller('/:code')
+@Public()
 export class RedirectController {
   constructor(private getUrlByCode: GetUrlByCodeUseCase) {}
 
   @Get()
-  @Public()
   async handle(@Param('code') code: string, @Res() res: Response) {
     const result = await this.getUrlByCode.execute({ code })
 

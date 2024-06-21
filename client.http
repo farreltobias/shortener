@@ -1,0 +1,44 @@
+@baseURL = http://localhost:3333
+@authToken = {{authenticate.response.body.access_token}}
+@code = 123abc
+
+# @name craete_account
+POST {{baseURL}}/accounts
+Content-Type: application/json
+
+{
+  "name": "John doe",
+  "email": "johndoe@email.com",
+  "password": "123456"
+}
+
+###
+
+# @name authenticate
+POST {{baseURL}}/sessions
+Content-Type: application/json
+
+{
+  "email": "johndoe@email.com",
+  "password": "123456"
+}
+
+###
+
+# @name shorten
+POST {{baseURL}}/shorten
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "url": "https://teddy360.com.br/material/marco-legal-das-garantias-sancionado-entenda-o-que-muda/",
+  "code": "{{code}}"
+}
+
+###
+
+# Preferealbe to test in browser
+# @name redirect
+GET {{baseURL}}/{{code}}
+Content-Type: application/json
+Authorization: Bearer {{authToken}}

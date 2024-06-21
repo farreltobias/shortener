@@ -15,7 +15,7 @@ import { JwtAuthGuard } from './jwt-auth.guard'
       imports: [EnvModule],
       inject: [EnvService],
       global: true,
-      async useFactory(env: EnvService) {
+      useFactory(env: EnvService) {
         const privateKey = env.get('JWT_PRIVATE_KEY')
         const publicKey = env.get('JWT_PUBLIC_KEY')
 

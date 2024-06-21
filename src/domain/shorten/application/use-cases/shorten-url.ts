@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
-import { Either, right } from '@/core/either'
+import { Either, left, right } from '@/core/either'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
 import { Url } from '../../enterprise/entities/url'
-import { UrlOwner } from '../../enterprise/entities/url-owner'
 import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
 import { UrlsRepository } from '../repositories/urls-repository'
+import { CodeAlreadyExistsError } from './errors/code-already-exists-error'
 
 interface ShortenUrlRequestUseCase {
   baseUrl: string
@@ -14,7 +14,7 @@ interface ShortenUrlRequestUseCase {
   customCode?: string
 }
 
-type ShortenUrlResponseUseCase = Either<null, { url: Url }>
+type ShortenUrlResponseUseCase = Either<CodeAlreadyExistsError, { url: Url }>
 
 @Injectable()
 export class ShortenUrlUseCase {
@@ -27,19 +27,17 @@ export class ShortenUrlUseCase {
   }: ShortenUrlRequestUseCase): Promise<ShortenUrlResponseUseCase> {
     const code = ownerId && customCode ? new NanoID(customCode) : new NanoID()
 
+    const urlExists = await this.urlRepository.findByCode(code)
+
+    if (urlExists) {
+      return left(new CodeAlreadyExistsError(code.toString()))
+    }
+
     const url = Url.create({
       baseUrl,
       code,
+      ownerId: ownerId ? new UniqueEntityID(ownerId) : null,
     })
-
-    if (ownerId) {
-      const urlOwner = UrlOwner.create({
-        ownerId: new UniqueEntityID(ownerId),
-        urlId: url.id,
-      })
-
-      url.owner = urlOwner
-    }
 
     await this.urlRepository.create(url)
 
