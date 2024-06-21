@@ -48,8 +48,8 @@ describe('Prisma Url Repository (E2E)', () => {
 
     await urlsRepository.findByCode(code)
 
-    const urlOnDatabase = await prisma.url.findUnique({
-      where: { code },
+    const urlOnDatabase = await prisma.url.findFirst({
+      where: { code, deletedAt: null },
     })
 
     const cached = await cacheRepository.get(`url:${code}`)
@@ -66,8 +66,8 @@ describe('Prisma Url Repository (E2E)', () => {
 
     const code = url.code.toString()
 
-    const urlOnDatabase = await prisma.url.findUnique({
-      where: { code },
+    const urlOnDatabase = await prisma.url.findFirst({
+      where: { code, deletedAt: null },
     })
 
     await cacheRepository.set(
@@ -100,6 +100,6 @@ describe('Prisma Url Repository (E2E)', () => {
 
     const cached = await cacheRepository.get(`url:${code}`)
 
-    expect(cached).toBeNull()
+    expect(JSON.parse(cached || '{}').id).toEqual(url.id.toString())
   })
 })
