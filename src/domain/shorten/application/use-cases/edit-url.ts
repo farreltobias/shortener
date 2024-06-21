@@ -28,6 +28,12 @@ export class EditUrlUseCase {
     baseUrl,
     newCode,
   }: EditUrlRequestUseCase): Promise<EditUrlResponseUseCase> {
+    const urlExists = await this.urlRepository.findByCode(newCode)
+
+    if (urlExists) {
+      return left(new CodeAlreadyExistsError(urlExists.code.toString()))
+    }
+
     const url = await this.urlRepository.findByCode(urlCode)
 
     if (!url) {
@@ -41,7 +47,7 @@ export class EditUrlUseCase {
     url.baseUrl = baseUrl
     url.code = new NanoID(newCode)
 
-    await this.urlRepository.save(url)
+    await this.urlRepository.save(url, urlCode)
 
     return right({
       url,

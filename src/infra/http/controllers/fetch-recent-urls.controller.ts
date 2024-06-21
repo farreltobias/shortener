@@ -3,6 +3,8 @@ import { ApiBearerAuth, ApiQuery, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { FetchRecentUrlsUseCase } from '@/domain/shorten/application/use-cases/fetch-recent-urls'
+import { CurrentUser } from '@/infra/auth/current-user.decorator'
+import { UserPayload } from '@/infra/auth/jwt.strategy'
 import { EnvService } from '@/infra/env/env.service'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
 
@@ -70,8 +72,11 @@ export class FetchRecentUrlsController {
   })
   async handle(
     @Query('page', queryValidationPipe) page: PageQueryParamsSchema,
+    @CurrentUser() user: UserPayload,
   ) {
-    const result = await this.fetchRecentUrls.execute({ page })
+    const { sub: ownerId } = user
+
+    const result = await this.fetchRecentUrls.execute({ page, ownerId })
 
     if (result.isLeft()) {
       throw new BadRequestException()

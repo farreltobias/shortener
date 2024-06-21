@@ -20,7 +20,12 @@ import { UrlShortenPresenter } from '../presenters/url-shorten-presenter'
 
 const ShortenUrlBodySchema = z.object({
   url: z.string().url(),
-  code: z.string().min(3).max(10).optional(),
+  code: z
+    .string()
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Only alphanumeric characters are allowed')
+    .min(3)
+    .max(10)
+    .optional(),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(ShortenUrlBodySchema)

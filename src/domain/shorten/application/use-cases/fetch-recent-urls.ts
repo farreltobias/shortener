@@ -7,6 +7,7 @@ import { UrlsRepository } from '../repositories/urls-repository'
 
 interface FetchRecentUrlsRequestUseCase {
   page: number
+  ownerId: string
 }
 
 type FetchRecentUrlsResponseUseCase = Either<null, { urls: Url[] }>
@@ -17,8 +18,9 @@ export class FetchRecentUrlsUseCase {
 
   async execute({
     page,
+    ownerId,
   }: FetchRecentUrlsRequestUseCase): Promise<FetchRecentUrlsResponseUseCase> {
-    const urls = await this.urlsRepository.findManyRecent({ page })
+    const urls = await this.urlsRepository.findManyRecent({ page, ownerId })
 
     return right({
       urls,

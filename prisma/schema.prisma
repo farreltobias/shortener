@@ -27,7 +27,7 @@ model User {
 model Url {
   id        String @id @default(uuid())
   baseUrl   String @map("base_url")
-  code      String @unique
+  code      String
   usedCount Int    @default(0)
 
   createdAt DateTime  @default(now()) @map("created_at")
@@ -37,5 +37,6 @@ model Url {
   ownerId String? @map("owner_id")
   owner   User?   @relation(fields: [ownerId], references: [id])
 
+  @@unique([code, deletedAt])
   @@map("urls")
 }

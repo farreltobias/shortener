@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Controller,
   HttpCode,
   Param,
@@ -10,6 +11,7 @@ import { ApiBearerAuth, ApiBody, ApiResponse } from '@nestjs/swagger'
 import { z } from 'zod'
 
 import { EditUrlUseCase } from '@/domain/shorten/application/use-cases/edit-url'
+import { CodeAlreadyExistsError } from '@/domain/shorten/application/use-cases/errors/code-already-exists-error'
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt.strategy'
 
@@ -17,7 +19,11 @@ import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const EditUrlBodySchema = z.object({
   url: z.string().url(),
-  code: z.string().min(3).max(10),
+  code: z
+    .string()
+    .regex(/^[a-zA-Z0-9_-]+$/, 'Only alphanumeric characters are allowed')
+    .min(3)
+    .max(10),
 })
 
 const bodyValidationPipe = new ZodValidationPipe(EditUrlBodySchema)
@@ -61,7 +67,14 @@ export class EditUrlController {
     })
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      const error = result.value
+
+      switch (error.constructor) {
+        case CodeAlreadyExistsError:
+          throw new ConflictException(error.message)
+        default:
+          throw new BadRequestException(error.message)
+      }
     }
   }
 }

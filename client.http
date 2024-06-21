@@ -68,6 +68,6 @@ Authorization: Bearer {{authToken}}
 
 # Preferealbe to test in browser
 # @name list_urls
-GET {{baseURL}}/urls/list
+GET {{baseURL}}/urls/list?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
