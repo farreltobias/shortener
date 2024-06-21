@@ -15,6 +15,7 @@ import { Public } from '@/infra/auth/public'
 import { EnvService } from '@/infra/env/env.service'
 
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
+import { UrlShortenPresenter } from '../presenters/url-shorten-presenter'
 
 const ShortenUrlBodySchema = z.object({
   url: z.string().url(),
@@ -58,10 +59,7 @@ export class ShortenUrlController {
     }
 
     const DOMAIN = this.envService.get('DOMAIN')
-    const code = result.value.url.code.toString()
 
-    return {
-      shortUrl: `${DOMAIN}/${code}`,
-    }
+    return UrlShortenPresenter.toHTTP(DOMAIN, result.value.url)
   }
 }

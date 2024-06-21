@@ -4,15 +4,15 @@ import { InMemoryUrlsRepository } from 'test/repositories/in-memory-urls-reposit
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 import { NanoID } from '../../enterprise/entities/value-objects/nano-id'
-import { GetUrlByCodeUseCase } from './get-url-by-code'
+import { UseUrlUseCase } from './use-url'
 
 let inMemoryUrlsRepository: InMemoryUrlsRepository
-let sut: GetUrlByCodeUseCase
+let sut: UseUrlUseCase
 
-describe('Get Url by code', () => {
+describe('Use Url', () => {
   beforeEach(() => {
     inMemoryUrlsRepository = new InMemoryUrlsRepository()
-    sut = new GetUrlByCodeUseCase(inMemoryUrlsRepository)
+    sut = new UseUrlUseCase(inMemoryUrlsRepository)
   })
 
   it('should be able to get url by code', async () => {
@@ -27,6 +27,24 @@ describe('Get Url by code', () => {
 
     expect(result.isRight()).toBe(true)
     expect(result.value).toEqual({ url })
+  })
+
+  it('should be able to count url as used', async () => {
+    const code = new NanoID()
+    const url = makeUrl({ code, usedCount: 0 })
+
+    await inMemoryUrlsRepository.create(url)
+
+    const result = await sut.execute({
+      code: code.toString(),
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(result.value).toEqual({
+      url: expect.objectContaining({
+        usedCount: 1,
+      }),
+    })
   })
 
   it('should not be able to get url by code that does not exist', async () => {
