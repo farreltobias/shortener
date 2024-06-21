@@ -1,3 +1,4 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
 import { UrlsRepository } from '@/domain/shorten/application/repositories/urls-repository'
 import { Url } from '@/domain/shorten/enterprise/entities/url'
 
@@ -28,5 +29,13 @@ export class InMemoryUrlsRepository implements UrlsRepository {
     const itemIndex = this.items.findIndex((item) => item.id.equals(url.id))
 
     this.items.splice(itemIndex, 1)
+  }
+
+  async findManyRecent({ page }: PaginationParams) {
+    const items = this.items
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * 20, page * 20)
+
+    return items
   }
 }
